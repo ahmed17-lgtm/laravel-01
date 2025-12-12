@@ -23,12 +23,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+
+        $genders = ['men', 'women'];
+
+        $gender = $genders[rand(0, count($genders) - 1)];
+
+        $randid = rand(1, 99);
         return [
-            'name' => fake()->name(),
+              'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'roles' => fake()->randomElement(['admin', 'editor', 'viewer', 'guest']),
             'remember_token' => Str::random(10),
+            "phone" => fake()->e164PhoneNumber(),
+            "profile_photo" => "https://randomuser.me/api/portraits/$gender/$randid.jpg"
         ];
     }
 
